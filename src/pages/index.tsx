@@ -9,7 +9,7 @@ import { LoadingPage } from "~/components/loadingSpinner";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { NextPage } from "next";
+
 dayjs.extend(relativeTime);
 
 const CreatePostWizard = () => {
@@ -48,7 +48,7 @@ const PostView = (props: PostWithUser) => {
           </span>
           <span className="font-thin">{`· ${dayjs(post.createdAt).fromNow()}`}</span>
         </div>
-        <span>
+        <span className="text-2xl">
           {post.content}
         </span>
       </div>
