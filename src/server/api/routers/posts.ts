@@ -10,7 +10,7 @@ const filterUserForClient = (user: User) => {
     id: user.id,
     username: user.username,
     imageUrl: user.imageUrl
-  }
+  };
 };
 
 export const postsRouter = createTRPCRouter({
@@ -20,17 +20,19 @@ export const postsRouter = createTRPCRouter({
     });
 
     const users = (await clerkClient.users.getUserList({
-      userId: posts.map(post => post.authorID),
+      userId: posts.map((post) => post.authorID),
       limit: 100
     })).map(filterUserForClient);
 
-    return posts.map(post => {
-      const author = users.find(user => user.id === post.authorID);
+    return posts.map((post) => {
+      const author = users.find((user) => user.id === post.authorID);
 
-      if (!author || !author.username) throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Author for post not found'
-      });
+      if (!author?.username) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Author for post not found'
+        });
+      }
 
       return {
         post,
@@ -38,7 +40,7 @@ export const postsRouter = createTRPCRouter({
           ...author,
           username: author.username
         }
-      }
+      };
     });
   }),
 });
